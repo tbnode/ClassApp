@@ -8,8 +8,8 @@ var App = (function(win, doc, $){
 	var
 		// CONFIG
 		containerSel = '#container',
-		buttonSel = '#button',
-
+		buttonSel = '.button',
+    
 		// PRIVATE VARIABLES
 		$container,
 		$button,
@@ -28,6 +28,7 @@ var App = (function(win, doc, $){
 
 			$button.on('click', buttonHandler);
 		};
+    
 
 	// EXPOSE WHAT YOU NEED
 	return {
