@@ -13,16 +13,20 @@ var App = (function(win, doc, $){
 		// PRIVATE VARIABLES
 		$container,
 		$button,
+    socket,
 
 		// PRIVATE METHODS
 		buttonHandler = function(e) {
-			console.log('Button clicked!');
+			//console.log('Button clicked!');
+      var vote = $(this).val();
+      socket.emit('vote', { estimate: vote });
 			e.preventDefault();
 		},
 
 		// KICK OFF
 		init = function(){
       console.log('initialized client');
+      socket = io();
 			$container = $(containerSel);
 			$button = $container.find(buttonSel);
 
