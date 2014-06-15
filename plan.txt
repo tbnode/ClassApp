@@ -1,0 +1,42 @@
+Suggested Plan
+==============
+[]  `$ express [appName]`
+[]  `$ cd [appName] && npm install`
+[]  {{ initial commit to git }}
+[]  edit routes/index.js
+[]  GET `/host` renders 'host'
+[]  GET `/client` renders 'client'
+[]    create new .jade files in views for each 'client' and 'host'
+[]  `$ npm start` to test that your views work
+[]    go to `[yourURL]:3000/host` and `[yourURL]:3000/client`
+[]    Create `/public/javascripts/hostApp.js` and `clientApp.js`
+[]	    Use the example structure
+[]	add `console.log()` statements to `init()` so you know they're running
+[]  Include the *App.js files in the Jade templates
+[]  Check the URLs with your console open to make sure the JS files are running
+[]  {{ commit to git }}
+[]  Add vote buttons to client.jade
+[]  Add click events to the vote buttons in clientApp.js that log the votes to the console
+[]  Test that they work
+[]  {{ commit to git }}
+[]  Install socket.io and add it to `www`
+[]  Replace console log in clientApp.js with Socket Emit of vote value
+[]  Listen for message on the server
+x  Optionally store this in mongo for later data mining
+  Forward the value to the host from the `on` handler on the server side
+  Listen for it on the host and log the value
+  Load a host and a client in separate browser tabs and test that the vote is logged
+  {{ commit to git }}
+  Replace the console log with jQuery to add the vote to the DOM
+  Add a button to the host Jade template that controls the state of voting
+  Create a button handler that toggles the state
+  Only accept votes when the button is in the correct state
+  Add CSS to only show the values after the voting period has ended
+  When the votes are revealed, average them and display the value.
+  When vote mode is re-enabled, clear the last round's responses
+  {{ commit to git }}
+  Add a name input to the client template
+  Send the name with the vote from the client
+  Add name to your listener on the host and display it with the vote
+  	Name should be visible during voting so users know who they're waiting on
+  {{ commit to git }}

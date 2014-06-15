@@ -17,9 +17,10 @@ var App = (function(win, doc, $){
 
 		// PRIVATE METHODS
 		buttonHandler = function(e) {
-			//console.log('Button clicked!');
-      var vote = $(this).val();
-      socket.emit('vote', { estimate: vote });
+      var username = $("#username").val();
+      var estimate = $(this).val();
+      var vote = { user: username , estimate: estimate };
+      socket.emit('vote', vote);
 			e.preventDefault();
 		},
 

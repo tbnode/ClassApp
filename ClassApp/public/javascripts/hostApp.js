@@ -13,7 +13,7 @@ var App = (function(win, doc, $){
 		// PRIVATE VARIABLES
 		$container,
 		$button,
-    votesArray = [],
+    votesJSON = {},
     socket = io(),
 
 		// PRIVATE METHODS
@@ -22,8 +22,8 @@ var App = (function(win, doc, $){
 			e.preventDefault();
 		},
       
-    voteHandler = function (data){
-      console.log('Vote Handled', data);
+    voteHandler = function (vote) {
+      
     },
       
 		// KICK OFF
