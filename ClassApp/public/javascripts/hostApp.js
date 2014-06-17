@@ -26,13 +26,19 @@ var App = (function(win, doc, $){
       if (voteActive == 'false') {
         newVoteActive = 'true';
         voteArray = [];
-        socket.emit('vote start', 'Voting Has Started');
+        socket.emit('vote start', 'Voting has started.');
+        var users = $('#messages').children();
+        for (var i=0; i<users.length; ++i) {
+          var user = users[i];
+          $(user).text('Waiting on ' + user.id);
+        }
       }
       
       if (voteActive == 'true') {
         newVoteActive = 'false';
         displayResults();
         calcResults();
+        socket.emit('vote end', 'Voting has ended.');
       }
       
       $("#button").attr("data-vote-active", newVoteActive);
@@ -69,22 +75,24 @@ var App = (function(win, doc, $){
       }
     },
       
-    displayResults = function(){
+    displayResults = function() {      
       for (var i=0; i<voteArray.length; ++i) {
         var username = voteArray[i].user,
             estimate = voteArray[i].estimate,
             jqSel = '#' + username;
-        if (document.getElementById(username)){
-          $(jqSel).text(username + '\'s estimate is ' + estimate + '.');
-        }
-        else {
-          $(jqSel).text(username + ' missed the boat.');
-        }
+        $(jqSel).text(username + '\'s estimate is ' + estimate + '.');
       }
+      var users = $('#messages').children();
+        for (var j=0; j<users.length; ++j) {
+          var user = users[j];
+          if ($(user).text().match(/^Waiting/))
+              $(user).text(user.id + ' missed the boat.');
+        }
     },
-      
+
     calcResults = function () {
-      var est=0,
+      var voteValid=true,
+          est=0,
           sum=0,
           average=0,
           message='',
@@ -94,14 +102,15 @@ var App = (function(win, doc, $){
           est = voteArray[i].estimate;          
           if (est=='?' || est=='0' || est=='1/2' || est=='1' || est=='inf') {
             message = 'It looks like further discussion is in order.';
+            voteValid = false;
             break;
           }
           else sum += parseInt(est);
         }
-        average = Math.round(sum /voteArray.length);
-        console.log(sum);
-        console.log(voteArray);
-        message = "The average estimate for this vote is " + average;
+        if (voteValid) {
+          average = Math.round(sum /voteArray.length);
+          message = "The average estimate for this vote is " + average;
+        }
       }
       else {
         message = 'Nobody voted.  Ummm....yeah.';
@@ -109,7 +118,7 @@ var App = (function(win, doc, $){
       $('#results').text(message);
     },
       
-		// KICK OFF
+    // KICK OFF
 		init = function(){
 			$container = $(containerSel);
 			$button = $container.find(buttonSel);

@@ -19,6 +19,9 @@ io.on('connection', function(socket) {
   socket.on('vote start', function (voteStartMessage) {
     socket.broadcast.emit('vote start broadcast', voteStartMessage);
   });
+  socket.on('vote end', function (voteEndMessage) {
+    socket.broadcast.emit('vote end broadcast', voteEndMessage);
+  });
   socket.on('join', function (joinMessage) {
     socket.broadcast.emit('join broadcast', joinMessage);
   });

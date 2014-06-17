@@ -31,12 +31,12 @@ x  Optionally store this in mongo for later data mining
 []  Add a button to the host Jade template that controls the state of voting
 []  Create a button handler that toggles the state
 []  Only accept votes when the button is in the correct state
-  Add CSS to only show the values after the voting period has ended
-  When the votes are revealed, average them and display the value.
+[]  Add CSS to only show the values after the voting period has ended
+[]  When the votes are revealed, average them and display the value.
 []  When vote mode is re-enabled, clear the last round's responses
-  {{ commit to git }}
+[]  {{ commit to git }}
 []  Add a name input to the client template
 []  Send the name with the vote from the client
 []  Add name to your listener on the host and display it with the vote
 []  	Name should be visible during voting so users know who they're waiting on
-  {{ commit to git }}
+[] {{ commit to git }}

@@ -14,16 +14,24 @@ var App = (function(win, doc, $){
 		$container,
 		$button,
     socket,
+    voted = false,
 
 		// PRIVATE METHODS
 		buttonHandler = function(e) {
-      if ($('#estDisp').text() != 'Waiting for vote to start')
+      var text = $('#estDisp').text(),
+          regex1 = new RegExp(/^Waiting/),
+          regex2 = new RegExp(/^Voting has ended/),
+          fail1 = text.match(regex1),
+          fail2 = text.match(regex2);
+      
+      if (!fail1 && !fail2)
       {
         var estimate = $(this).val();
         var username = getQueryVariable('username');
         var est = { user: username, estimate: estimate };      
         $("#estDisp").text('Your current estimate is ' + est.estimate);
         socket.emit('est', est);
+        voted = true;
         e.preventDefault();
       }
 		},
@@ -40,7 +48,16 @@ var App = (function(win, doc, $){
     },
     
     voteStartHandler = function(voteStartMessage){
-      $(estDisp).text(voteStartMessage);
+      $('#estDisp').text(voteStartMessage);
+    },
+    
+    voteEndHandler = function(voteEndMessage){      
+      var newMessage = voteEndMessage + '  You forgot to vote.';
+      if (voted) {
+        var est = $('#estDisp').text().split(' ')[4];
+        newMessage = voteEndMessage + '  Your estimate was ' + est;
+      }
+      $('#estDisp').text(newMessage);
     },
 
 		// KICK OFF
@@ -55,6 +72,7 @@ var App = (function(win, doc, $){
      
       socket.emit('join', username + ' has joined.');
       socket.on('vote start broadcast', voteStartHandler);
+      socket.on('vote end broadcast', voteEndHandler);
 
 			$button.on('click', buttonHandler);
 		};
