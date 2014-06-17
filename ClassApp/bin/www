@@ -12,11 +12,17 @@ var io = require('socket.io')(server);
 
 io.on('connection', function(socket) {
   console.log('New connection made');
+  
   socket.on('disconnect', function(){
-    console.log('Lost connection.');
+    console.log('Lost connection');
   });
-  socket.on('vote', function (data) {
-    console.log(data.estimate);
-    socket.broadcast.emit('Vote Broadcast', data);    
+  socket.on('vote start', function (voteStartMessage) {
+    socket.broadcast.emit('vote start broadcast', voteStartMessage);
+  });
+  socket.on('join', function (joinMessage) {
+    socket.broadcast.emit('join broadcast', joinMessage);
+  });
+  socket.on('est', function (estData) {
+    socket.broadcast.emit('est broadcast', estData);
   });
 });

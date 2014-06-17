@@ -2,5 +2,11 @@ extends layout
 
 block content
   script(src='/javascripts/hostApp.js')
-  h1= title
-  p Welcome to #{title}
+  h1 Viewing Estimates
+  
+  div(id="container")
+    input(type="button" id="button" value="Begin Vote" data-alt-value="End Vote" data-vote-active='false')
+  
+  div(id="messages")
+  
+  div(id="results")

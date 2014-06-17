@@ -17,19 +17,44 @@ var App = (function(win, doc, $){
 
 		// PRIVATE METHODS
 		buttonHandler = function(e) {
-      var username = $("#username").val();
-      var estimate = $(this).val();
-      var vote = { user: username , estimate: estimate };
-      socket.emit('vote', vote);
-			e.preventDefault();
+      if ($('#estDisp').text() != 'Waiting for vote to start')
+      {
+        var estimate = $(this).val();
+        var username = getQueryVariable('username');
+        var est = { user: username, estimate: estimate };      
+        $("#estDisp").text('Your current estimate is ' + est.estimate);
+        socket.emit('est', est);
+        e.preventDefault();
+      }
 		},
+    
+    getQueryVariable = function(variable)
+    {
+      var query = window.location.search.substring(1);
+      var vars = query.split("&");
+      for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+      }
+      return(false);
+    },
+    
+    voteStartHandler = function(voteStartMessage){
+      $(estDisp).text(voteStartMessage);
+    },
 
 		// KICK OFF
 		init = function(){
-      console.log('initialized client');
       socket = io();
 			$container = $(containerSel);
 			$button = $container.find(buttonSel);
+      
+      var username = getQueryVariable('username');
+      var welcomeMsg = '<h1>' + username + '\'s Estimate' + '<h1>';
+      $('#welcome').html(welcomeMsg);
+     
+      socket.emit('join', username + ' has joined.');
+      socket.on('vote start broadcast', voteStartHandler);
 
 			$button.on('click', buttonHandler);
 		};

@@ -2,15 +2,24 @@ extends layout
 
 block content
   script(src='/javascripts/clientApp.js')
-  h1= title
-  p Welcome to #{title}
-  
-  form
-    input(type="text" id="username" placeholder="username")
+  div(id="welcome")
+  div(id="estDisp") Waiting for vote to start
   
   div(id="container")
-    input(type="button" class="button" value="1")
-    input(type="button" class="button" value="2")
-    input(type="button" class="button" value="3")
-    input(type="button" class="button" value="4")
-    input(type="button" class="button" value="5")
+    div(class="line")
+      input(type="button" class="button" value="?")
+    div(class="line")
+      input(type="button" class="button" value="0")
+      input(type="button" class="button" value="1/2")
+      input(type="button" class="button" value="1")
+      input(type="button" class="button" value="2")
+    div(class="line")
+      input(type="button" class="button" value="3")
+      input(type="button" class="button" value="5")
+      input(type="button" class="button" value="8")
+      input(type="button" class="button" value="13")
+    div(class="line")      
+      input(type="button" class="button" value="20")
+      input(type="button" class="button" value="40")
+      input(type="button" class="button" value="100")
+      input(type="button" class="button" value="inf")
